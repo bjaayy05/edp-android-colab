@@ -27,7 +27,6 @@ class DishViewModel : ViewModel() {
         return _dishes.value.find { it.id == dishId }
     }
 
-    // TODO 1: UPDATE Dish
     fun updateDish(dishId: Int, newName: String) {
         if (newName.isBlank()) return
         _dishes.value = _dishes.value.map { dish ->
@@ -35,12 +34,10 @@ class DishViewModel : ViewModel() {
         }
     }
 
-    // TODO 2: DELETE Dish
     fun deleteDish(dishId: Int) {
         _dishes.value = _dishes.value.filter { it.id != dishId }
     }
 
-    // TODO 3: CREATE Recipe
     fun addRecipe(dishId: Int, text: String) {
         if (text.isBlank()) return
         val newRecipe = Recipe(id = nextId++, text = text.trim())
@@ -51,7 +48,6 @@ class DishViewModel : ViewModel() {
         }
     }
 
-    // TODO 4: UPDATE Recipe
     fun updateRecipe(dishId: Int, recipeId: Int, newText: String) {
         if (newText.isBlank()) return
         _dishes.value = _dishes.value.map { dish ->
@@ -64,7 +60,6 @@ class DishViewModel : ViewModel() {
         }
     }
 
-    // TODO 5: DELETE Recipe
     fun deleteRecipe(dishId: Int, recipeId: Int) {
         _dishes.value = _dishes.value.map { dish ->
             if (dish.id == dishId) {
