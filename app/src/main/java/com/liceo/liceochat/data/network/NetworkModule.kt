@@ -1,14 +1,11 @@
 package com.liceo.liceochat.data.network
-
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import java.util.concurrent.TimeUnit
 
 object NetworkModule {
+    // Replace with your mockapi/backend URL if different
     private const val BASE_URL = "https://6a9b85920ad174e139e8b0f2.mockapi.io/chat-messaging/api/v1/"
 
     private val json = Json {
@@ -16,20 +13,12 @@ object NetworkModule {
         coerceInputValues = true
     }
 
-    private val logging = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
-
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(logging)
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(20, TimeUnit.SECONDS)
-        .build()
-
-    val chatApi: ChatApiService = Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
-        .client(client)
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
-        .create(ChatApiService::class.java)
+
+    val userApiService: UserApiService by lazy {
+        retrofit.create(UserApiService::class.java)
+    }
 }
